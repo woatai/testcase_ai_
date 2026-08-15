@@ -1,0 +1,222 @@
+{
+  "$defs": {
+    "Citation": {
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "section": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Section"
+        },
+        "source_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceType"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "SourceType": {
+      "enum": [
+        "policy",
+        "business_rule",
+        "workflow",
+        "requirement",
+        "api_spec",
+        "glossary",
+        "approved_case"
+      ],
+      "title": "SourceType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "case_id": {
+      "minLength": 1,
+      "title": "Case Id",
+      "type": "string"
+    },
+    "applicable_versions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Applicable Versions",
+      "type": "array"
+    },
+    "module": {
+      "minLength": 1,
+      "title": "Module",
+      "type": "string"
+    },
+    "test_path": {
+      "minLength": 1,
+      "title": "Test Path",
+      "type": "string"
+    },
+    "test_point": {
+      "minLength": 1,
+      "title": "Test Point",
+      "type": "string"
+    },
+    "preconditions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Preconditions",
+      "type": "array"
+    },
+    "test_data": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Test Data",
+      "type": "array"
+    },
+    "steps": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Steps",
+      "type": "array"
+    },
+    "expected_result": {
+      "minLength": 1,
+      "title": "Expected Result",
+      "type": "string"
+    },
+    "actual_result": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Actual Result"
+    },
+    "execution_status": {
+      "anyOf": [
+        {
+          "enum": [
+            "通过",
+            "未通过"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Execution Status"
+    },
+    "test_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Test Date"
+    },
+    "coverage_tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Coverage Tags",
+      "type": "array"
+    },
+    "citations": {
+      "items": {
+        "$ref": "#/$defs/Citation"
+      },
+      "title": "Citations",
+      "type": "array"
+    },
+    "evidence_status": {
+      "default": "cited",
+      "enum": [
+        "cited",
+        "inferred",
+        "needs_clarification"
+      ],
+      "title": "Evidence Status",
+      "type": "string"
+    },
+    "duplicate_of": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duplicate Of"
+    },
+    "duplicate_score": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duplicate Score"
+    }
+  },
+  "required": [
+    "case_id",
+    "applicable_versions",
+    "module",
+    "test_path",
+    "test_point",
+    "preconditions",
+    "test_data",
+    "steps",
+    "expected_result"
+  ],
+  "title": "TestCaseV1",
+  "type": "object"
+}

@@ -1,0 +1,39 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+
+# Build / temp
+tmp/
+temp/
+*.tmp
+*.log
+outputs/
+.coverage
+htmlcov/
+
+# Local tool state
+.claude/
+
+# Private business knowledge and historical materials.
+# These paths remain available in a local checkout but are never committed.
+/projects/home-service/
+/projects/*/knowledge/**
+!/projects/*/knowledge/
+!/projects/*/knowledge/**/
+!/projects/*/knowledge/**/README.md
+/evals/
+/legacy/
+/policies/

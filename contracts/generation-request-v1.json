@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "RequirementInput": {
+      "properties": {
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "content": {
+          "minLength": 1,
+          "title": "Content",
+          "type": "string"
+        },
+        "source_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Name"
+        }
+      },
+      "required": [
+        "title",
+        "content"
+      ],
+      "title": "RequirementInput",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "project_id": {
+      "title": "Project Id",
+      "type": "string"
+    },
+    "requirement": {
+      "$ref": "#/$defs/RequirementInput"
+    },
+    "module_hint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Module Hint"
+    },
+    "clarification_answers": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Clarification Answers",
+      "type": "object"
+    },
+    "parent_generation_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Generation Id"
+    },
+    "output_formats": {
+      "items": {
+        "enum": [
+          "json",
+          "xlsx"
+        ],
+        "type": "string"
+      },
+      "title": "Output Formats",
+      "type": "array"
+    }
+  },
+  "required": [
+    "project_id",
+    "requirement"
+  ],
+  "title": "GenerationRequestV1",
+  "type": "object"
+}

@@ -1,0 +1,29 @@
+schema_version: "1"
+id: ecommerce-demo
+name: 电商最小复用示例
+version: "1.0"
+language: zh-CN
+
+sources:
+  - type: business_rule
+    path: knowledge/business-rules
+    include: ["**/*.md"]
+  - type: workflow
+    path: knowledge/workflows
+    include: ["**/*.md"]
+  - type: approved_case
+    path: knowledge/approved-cases
+    include: ["**/*.md"]
+
+retrieval:
+  dense_top_k: 10
+  bm25_top_k: 10
+  fused_top_k: 8
+  rrf_k: 60
+  query_rewrite_enabled: false
+  rerank_enabled: false
+
+excel:
+  sheet: 全部用例
+  header_row: 4
+  data_start_row: 5

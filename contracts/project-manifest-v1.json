@@ -1,0 +1,178 @@
+{
+  "$defs": {
+    "ExcelMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "sheet": {
+          "default": "全部用例",
+          "title": "Sheet",
+          "type": "string"
+        },
+        "header_row": {
+          "default": 4,
+          "minimum": 1,
+          "title": "Header Row",
+          "type": "integer"
+        },
+        "data_start_row": {
+          "default": 5,
+          "minimum": 2,
+          "title": "Data Start Row",
+          "type": "integer"
+        }
+      },
+      "title": "ExcelMapping",
+      "type": "object"
+    },
+    "KnowledgeSourceConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/SourceType"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "include": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Include",
+          "type": "array"
+        },
+        "exclude": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Exclude",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "path"
+      ],
+      "title": "KnowledgeSourceConfig",
+      "type": "object"
+    },
+    "RetrievalProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "dense_top_k": {
+          "default": 20,
+          "maximum": 200,
+          "minimum": 1,
+          "title": "Dense Top K",
+          "type": "integer"
+        },
+        "bm25_top_k": {
+          "default": 20,
+          "maximum": 200,
+          "minimum": 1,
+          "title": "Bm25 Top K",
+          "type": "integer"
+        },
+        "fused_top_k": {
+          "default": 12,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Fused Top K",
+          "type": "integer"
+        },
+        "rrf_k": {
+          "default": 60,
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Rrf K",
+          "type": "integer"
+        },
+        "query_rewrite_enabled": {
+          "default": false,
+          "title": "Query Rewrite Enabled",
+          "type": "boolean"
+        },
+        "rerank_enabled": {
+          "default": false,
+          "title": "Rerank Enabled",
+          "type": "boolean"
+        }
+      },
+      "title": "RetrievalProfile",
+      "type": "object"
+    },
+    "SourceType": {
+      "enum": [
+        "policy",
+        "business_rule",
+        "workflow",
+        "requirement",
+        "api_spec",
+        "glossary",
+        "approved_case"
+      ],
+      "title": "SourceType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "version": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Version",
+      "type": "string"
+    },
+    "language": {
+      "default": "zh-CN",
+      "title": "Language",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/KnowledgeSourceConfig"
+      },
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "policies": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Policies",
+      "type": "array"
+    },
+    "retrieval": {
+      "$ref": "#/$defs/RetrievalProfile"
+    },
+    "excel": {
+      "$ref": "#/$defs/ExcelMapping"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "version",
+    "sources"
+  ],
+  "title": "ProjectManifestV1",
+  "type": "object"
+}
