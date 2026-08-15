@@ -2,7 +2,7 @@
 
 `testcase_ai_` 是一个可切换本地知识包、支持本地模型或外部 OpenAI-compatible API、通过 RAG 增强的测试用例生成平台。
 
-本公开仓库只包含平台代码和空的知识包目录模板。真实业务知识、正式用例、评测集和历史资料应放在本地，并由 `.gitignore` 排除。
+本公开仓库包含平台代码和一套完全虚构的电商演示知识包，可用于验证安装、知识同步、检索和生成主链路。真实业务知识、正式用例、评测集和历史资料应只放在本地，并由 `.gitignore` 排除。
 
 平台提供两项核心能力：
 
@@ -29,36 +29,35 @@ Schema、证据一致性、重复检查
 JSON / Excel 草稿 → 人工审核 → 正式入库
 ```
 
-详细设计见 [架构说明](docs/architecture.md)，当前方案对照见 [实施状态](docs/implementation-status.md)。
+第一次使用请先看 [完整使用指南](docs/usage.md)。详细设计见 [架构说明](docs/architecture.md)，当前方案对照见 [实施状态](docs/implementation-status.md)。
 
 ## 目录
 
 ```text
 src/testcase_ai/       平台代码
-projects/              可切换的业务知识包目录模板（内容需本地提供）
+projects/              可切换的业务知识包；ecommerce-demo 是公开虚构示例
 prompts/               通用生成 Prompt
 contracts/             对外 JSON Schema
 tests/                 自动化测试
 outputs/               草稿和评测结果，不进入 Git
 ```
 
-默认示例包是 `projects/ecommerce-demo`。真实业务包可以按同一 `project.yaml` 结构在本地添加，不会随公共仓库提交。
+默认示例包是 `projects/ecommerce-demo`。真实业务包可以按同一 `project.yaml` 结构在本地添加；除该演示包外，`projects/*/knowledge/` 的正文默认不会被 Git 跟踪。
 
 ## 本地启动
 
-要求：Python 3.11+、[uv](https://docs.astral.sh/uv/)、Docker，以及一个 OpenAI-compatible 模型服务。项目已验证 Ollama 的 `qwen3:1.7b` 与 `bge-m3`。
+要求：Git、Python 3.11+、[uv](https://docs.astral.sh/uv/)、Docker，以及一个 OpenAI-compatible 模型服务。项目已验证 Ollama 的 `qwen3:1.7b` 与 `bge-m3`。
 
 ```bash
+git clone https://github.com/woatai/testcase_ai_.git
+cd testcase_ai_
 uv sync --extra dev
 cp .env.example .env
+ollama pull qwen3:1.7b
+ollama pull bge-m3
 ```
 
-在 `.env` 中至少配置：
-
-```dotenv
-TESTCASE_AI_LLM_MODEL=qwen3:1.7b
-TESTCASE_AI_EMBEDDING_MODEL=bge-m3:latest
-```
+`.env.example` 已带本地 Ollama 的演示模型名；若使用其他 OpenAI-compatible 服务，再修改 `.env` 中的地址、密钥和模型名。
 
 启动数据服务并建立知识索引：
 
@@ -67,9 +66,10 @@ docker compose up -d mysql etcd minio milvus
 uv run alembic upgrade head
 uv run testcase-ai project validate --project ecommerce-demo
 uv run testcase-ai knowledge sync --project ecommerce-demo
+uv run testcase-ai serve
 ```
 
-第二次同步相同内容会返回 `unchanged: true`，不会重复生成向量。
+打开 `http://127.0.0.1:8000/docs` 即可使用 API 文档。第二次同步相同内容会返回 `unchanged: true`，不会重复生成向量。完整的配置、CLI、HTTP API、业务包接入和常见问题见 [完整使用指南](docs/usage.md)。
 
 ## 检索与生成
 

@@ -34,6 +34,8 @@ htmlcov/
 !/projects/*/knowledge/
 !/projects/*/knowledge/**/
 !/projects/*/knowledge/**/README.md
+# Only this synthetic demo is publishable. Other projects remain private by default.
+!/projects/ecommerce-demo/knowledge/**
 /evals/
 /legacy/
 /policies/
